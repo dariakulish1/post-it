@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model comments {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  text       String
+  author_id  String    @db.Uuid
+  post_id    String    @db.Uuid
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at DateTime? @default(now()) @db.Timestamptz(6)
+  users      users     @relation(fields: [author_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  posts      posts     @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model posts {
+  id         String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title      String     @db.VarChar(200)
+  anons      String
+  full_text  String
+  image_url  String?
+  image_path String?
+  author_id  String     @db.Uuid
+  created_at DateTime?  @default(now()) @db.Timestamptz(6)
+  updated_at DateTime?  @default(now()) @db.Timestamptz(6)
+  post_id    Int        @default(autoincrement())
+  comments   comments[]
+  users      users      @relation(fields: [author_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model users {
+  id                        String                      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                      String                      @db.VarChar(50)
+  email                     String                      @unique @db.VarChar(260)
+  password_hash             String                      @db.VarChar(255)
+  created_at                DateTime?                   @default(now()) @db.Timestamptz(6)
+  updated_at                DateTime?                   @default(now()) @db.Timestamptz(6)
+  email_verified            Boolean?                    @default(false)
+  comments                  comments[]
+  email_verification_tokens email_verification_tokens[]
+  posts                     posts[]
+}
+
+model email_verification_tokens {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id    String    @db.Uuid
+  token_hash String
+  expires_at DateTime  @db.Timestamp(6)
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  users      users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
