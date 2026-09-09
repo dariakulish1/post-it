@@ -6,8 +6,9 @@ import { Lottie } from "lottie-react";
 import SavedPostsTab from "../components/SavedPostsTab/SavedPostsTab";
 import { getCurrentUser, getMyPosts, deletePost } from "@/app/lib/api";
 import { useEffect, useState } from "react";
-import { ImageOff } from "lucide-react";
+import { ImageOff, Mail, User } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { getSavedPostIds } from "../lib/savedPosts";
 
 type UserPost = {
   id: string;
@@ -74,20 +75,29 @@ const ProfilePage = () => {
     }
   };
 
+  const getSavedPostsCount = () => {
+    return getSavedPostIds().length;
+  };
+
   return (
     <div className="w-full flex flex-col items-center justify-center sm:items-start z-2">
-      <div className="flex flex-col items-start justify-start w-full max-w-4xl mx-auto">
-        <div className="flex flex-row gap-6 items-center justify-center">
-          <Lottie className="w-30 h-30" src="/profileAnimation.json" autoplay loop />
-          <h1 className="text-3xl font-bold">Profile Page</h1>
+      <div className="flex flex-col items-start justify-start w-full max-w-6xl mx-auto">
+        <h1 className="text-3xl font-bold py-4">Profile Page</h1>
+        <div className="flex flex-row gap-6 items-center justify-center pt-3">
+          <div className="w-20 h-20 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center">
+            <User className="w-10 h-10 text-white" />
+          </div>
+          <div className="flex flex-col">
+            <h1 className="text-2xl font-bold">{loading ? "Loading..." : user?.name ?? "N/A"}{}</h1>
+            <p className="text-base text-gray-700"><Mail className="inline w-3 h-3 mr-1" />{loading ? "Loading..." : user?.email ?? "N/A"}</p>
+            <div className="flex flex-row items-center justify-start gap-2">
+              <p className="text-sm text-gray-600">{userPosts.length} posts</p>
+              <div className="bg-gray-600 w-1 h-1 rounded-full" />
+              <p className="text-sm text-gray-600">{getSavedPostsCount()} saved</p>
+            </div>
+          </div>
         </div>
         <div className="flex flex-col">
-          <p className="mt-4 text-lg">
-            Name: {loading ? "Loading..." : user?.name ?? "N/A"}
-          </p>
-          <p className="mt-2 text-lg">
-            Email: {loading ? "Loading..." : user?.email ?? "N/A"}
-          </p>
           <div className="pt-4">
             <Tabs defaultValue="overview">
               <TabsList variant="line">

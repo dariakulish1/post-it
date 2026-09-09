@@ -48,7 +48,7 @@ export default function SavedPostsPage() {
       ) : posts.length === 0 ? (
         <p className="text-gray-500">You haven&apos;t saved any posts yet.</p>
       ) : (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 w-full">
           {posts.map((post) => (
             <Link
               key={post.id}
