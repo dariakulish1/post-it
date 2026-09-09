@@ -51,7 +51,6 @@ export const Navbar = () => {
                   {!loading && user && (
                     <>
                       <Link href="/profile" className="font-semibold text-gray-600 hover:text-gray-900">Profile</Link>
-                      <Link href="/saved-posts" className="font-semibold text-gray-600 hover:text-gray-900">Saved posts</Link>
                     </>)}
                 </div>
                 {!loading && user && (

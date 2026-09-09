@@ -16,6 +16,15 @@ export class PostsService {
     });
   }
 
+  async getPostsByAuthor(authorId: string) {
+    return this.prisma.posts.findMany({
+      where: { author_id: authorId },
+      orderBy: {
+        created_at: 'desc',
+      },
+    });
+  }
+
   async getPostById(postId: number) {
     const post = await this.prisma.posts.findFirst({
       where: { post_id: postId },

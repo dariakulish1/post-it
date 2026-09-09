@@ -27,6 +27,14 @@ export class PostsController {
     return this.postsService.getPosts();
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Get('mine')
+  getMyPosts(@Req() req: Request) {
+    const user = req.user as { id: string };
+
+    return this.postsService.getPostsByAuthor(user.id);
+  }
+
   @Get(':id')
   getPostById(@Param('id', ParseIntPipe) postId: number) {
     return this.postsService.getPostById(postId);

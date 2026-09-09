@@ -79,40 +79,6 @@ export async function getCurrentUser() {
   return response.json();
 }
 
-export async function verifyEmail(userId: string, token: string) {
-  const response = await fetch(`${API_URL}/auth/verify-email`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ userId, token }),
-    credentials: 'include',
-  });
-
-  if (!response.ok) {
-    throw new Error(await getApiError(response, 'Verification failed'));
-  }
-
-  return response.json();
-}
-
-export async function resendVerificationEmail(email: string) {
-  const response = await fetch(`${API_URL}/auth/resend-verification`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ email }),
-    credentials: 'include',
-  });
-
-  if (!response.ok) {
-    throw new Error(await getApiError(response, 'Resend failed'));
-  }
-
-  return response.json();
-}
-
 export async function getPosts() {
   const response = await fetch(`${API_URL}/posts`);
 
@@ -151,6 +117,31 @@ export async function getPostById(postId: string) {
 
   if (!response.ok) {
     throw new Error('Failed to fetch post');
+  }
+
+  return response.json();
+}
+
+export async function getMyPosts() {
+  const response = await fetch(`${API_URL}/posts/mine`, {
+    credentials: 'include',
+  });
+
+  if (!response.ok) {
+    throw new Error(await getApiError(response, 'Failed to fetch your posts'));
+  }
+
+  return response.json();
+}
+
+export async function deletePost(id: string) {
+  const response = await fetch(`${API_URL}/posts/${id}`, {
+    method: 'DELETE',
+    credentials: 'include',
+  });
+
+  if (!response.ok) {
+    throw new Error(await getApiError(response, 'Failed to delete post'));
   }
 
   return response.json();

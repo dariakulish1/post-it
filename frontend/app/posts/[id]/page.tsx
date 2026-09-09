@@ -1,6 +1,7 @@
 import { getPostById } from "@/app/lib/api";
-import { Bookmark, User } from "lucide-react";
+import { User } from "lucide-react";
 import Image from "next/image";
+import { SavePostButton } from "./SavePostButton";
 
 export default async function BlogPostPage({
   params,
@@ -46,13 +47,12 @@ export default async function BlogPostPage({
                 <p className="text-center mt-1 text-sm text-gray-500">{createdDate}</p>
               </div>
             </div>
-            <div className="flex flex-row gap-4 items-center border border-gray-200 py-2 px-4 h-10 rounded-full cursor-pointer hover:bg-gray-100 transition-all duration-200">
-              <Bookmark className="w-6 h-6 text-gray-500" />
-              <p>Save</p>
-            </div>
+            <SavePostButton postId={id} />
           </div>
-          <Image width={800} height={400} src={post.image_url} alt={post.title} className="w-full h-[400px] object-cover rounded-md mb-4 border-t border-gray-200 pt-4" />
-          <div className="w-full">
+          {post.image_url && (
+            <Image width={800} height={400} src={post.image_url} alt={post.title} className="w-full h-[400px] object-cover rounded-md mb-4 border-t border-gray-200 pt-4" />
+          )}
+          <div className={post.image_url ? 'w-full' : 'w-full mb-4 border-t border-gray-200'}>
             <p className="text-lg text-gray-700 mt-6">{post.full_text}</p>
           </div>
       </div>
