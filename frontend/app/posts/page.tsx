@@ -1,5 +1,7 @@
 import { getPosts } from '../lib/api';
 import Link from 'next/link';
+import Image from 'next/image';
+import { ImageOff } from 'lucide-react';
 
 export default async function PostsPage() {
   const posts = await getPosts();
@@ -13,8 +15,15 @@ export default async function PostsPage() {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full">
         {posts.map((post: any) => (
           <Link key={post.id} href={`/posts/${post.post_id}`} className="border border-gray-200 rounded-md hover:shadow-md hover:scale-105 transition-all duration-300 ease-in-out">
-            <div className="w-full h-48 relative bg-gray-200 overflow-hidden">
-            </div>
+            {post.image_url ? (
+              <div className="w-full h-48 relative bg-gray-200 overflow-hidden rounded-t-md">
+                <Image width={500} height={300} src={post.image_url} alt={post.title} className="w-full h-full object-cover rounded-t-md" />
+              </div>
+            ) : (
+              <div className="flex items-center justify-center w-full rounded-t-md h-48 relative bg-gradient-to-b from-gray-100 to-gray-300 overflow-hidden">
+                <ImageOff className="w-15 h-15 text-gray-500" />
+              </div>
+            )}
             <div className="px-4 py-2 bg-white rounded-b-md">
               <h2 className="text-lg font-bold mb-2">{post.title}</h2>
               <p className="text-sm text-gray-600 mb-2 line-clamp-2">{post.anons}</p>

@@ -12,8 +12,6 @@ import {
 import { RegisterDto } from './dto/register.dto.js';
 import { AuthService } from './auth.service.js';
 import { LoginDto } from './dto/login.dto.js';
-import { VerifyEmailDto } from './dto/verify-email.dto.js';
-import { ResendVerificationDto } from './dto/resend-verification.dto.js';
 import { JwtAuthGuard } from './guards/jwt-auth.guard.js';
 import type { Request, Response } from 'express';
 
@@ -51,16 +49,6 @@ export class AuthController {
       message: 'Login successful',
       user: result.user,
     };
-  }
-
-  @Post('verify-email')
-  verifyEmail(@Body() dto: VerifyEmailDto) {
-    return this.authService.verifyEmail(dto);
-  }
-
-  @Post('resend-verification')
-  resendVerification(@Body() dto: ResendVerificationDto) {
-    return this.authService.resendVerificationEmail(dto.email);
   }
 
   @UseGuards(JwtAuthGuard)

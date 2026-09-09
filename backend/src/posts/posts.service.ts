@@ -17,13 +17,24 @@ export class PostsService {
   }
 
   async getPostById(postId: number) {
-    const post = await this.prisma.posts.findFirst({ where: { post_id: postId } });
+    const post = await this.prisma.posts.findFirst({
+      where: { post_id: postId },
+      include: {
+        users: {
+          select: { name: true },
+        },
+      },
+    });
 
     if (!post) {
       throw new NotFoundException('Post not found');
     }
 
-    return post;
+    return {
+      ...post,
+      author_name: post.users.name,
+      users: undefined,
+    };
   }
 
   async createPost(dto: CreatePostDto, authorId: string) {

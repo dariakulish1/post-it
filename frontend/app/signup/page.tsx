@@ -55,8 +55,8 @@ export default function SignupPage() {
     }
 
     try {
-      const result = await register(formData.name, formData.email, formData.password);
-      router.push(`/verify-email?userId=${result.user.id}&email=${encodeURIComponent(result.user.email)}`);
+      await register(formData.name, formData.email, formData.password);
+      router.push('/login');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Registration failed');
     } finally {

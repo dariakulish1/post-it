@@ -79,13 +79,13 @@ export async function getCurrentUser() {
   return response.json();
 }
 
-export async function verifyEmail(userId: string, code: string) {
+export async function verifyEmail(userId: string, token: string) {
   const response = await fetch(`${API_URL}/auth/verify-email`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ userId, code }),
+    body: JSON.stringify({ userId, token }),
     credentials: 'include',
   });
 
@@ -123,15 +123,13 @@ export async function getPosts() {
   return response.json();
 }
 
-export type CreatePostInput = {
+export async function createPost(post: {
   title: string;
   anons: string;
   full_text: string;
   image_url?: string;
   image_path?: string;
-};
-
-export async function createPost(post: CreatePostInput) {
+}) {
   const response = await fetch(`${API_URL}/posts`, {
     method: 'POST',
     headers: {

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { NewPostModal } from "../NewPostModal/NewPostModal";
@@ -39,12 +40,19 @@ export const Navbar = () => {
   return (
     <nav className="bg-white border-b border-gray-200 p-4 z-2">
         <div className="container mx-auto flex justify-between items-center">
-            <div className="text-lg font-bold">PostIT</div>
+            <div className="text-lg font-bold flex flex-row gap-2 items-center justify-center">
+              <Image src="/postit-icon-1024.png" alt="PostIT Logo" width={32} height={32} className="border border-gray-300 rounded-md" />
+              <span>PostIT</span>
+            </div>
             <div className="space-x-4 flex flex-row w-full justify-between items-center">
                 <div className="space-x-8 mx-auto flex items-center">
                   <Link href="/" className="font-semibold text-gray-600 hover:text-gray-900">Home</Link>
                   <Link href="/posts" className="font-semibold text-gray-600 hover:text-gray-900">Posts</Link>
-                  {!loading && user && (<Link href="/profile" className="font-semibold text-gray-600 hover:text-gray-900">Profile</Link>)}
+                  {!loading && user && (
+                    <>
+                      <Link href="/profile" className="font-semibold text-gray-600 hover:text-gray-900">Profile</Link>
+                      <Link href="/saved-posts" className="font-semibold text-gray-600 hover:text-gray-900">Saved posts</Link>
+                    </>)}
                 </div>
                 {!loading && user && (
                   <>

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getPosts } from './lib/api';
 import { Button } from "@/components/ui/button";
 import { NewPostModal } from "./components/NewPostModal/NewPostModal";
+import { ImageOff } from "lucide-react";
 
 export default async function Home() {
   const posts = await getPosts();
@@ -33,10 +34,17 @@ export default async function Home() {
         <div className="flex flex-1 w-full max-w-8xl mx-auto flex-col items-center justify-center py-5 px-10 sm:items-start z-2">
           <h1 className="text-3xl lg:text-5xl font-bold text-center sm:text-left mt-10 mb-5">Recent posts</h1>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 w-full">
-            {lastPosts.map((post: any) => (
-              <Link key={post.id} href={`/posts/${post.post_id}`} className="border border-gray-200 rounded-md hover:shadow-md hover:scale-105 transition-all duration-300 ease-in-out">
-                <div className="w-full h-48 relative bg-gray-200 overflow-hidden">
-                </div>
+              {lastPosts.map((post: any) => (
+                  <Link key={post.id} href={`/posts/${post.post_id}`} className="border border-gray-200 rounded-md hover:shadow-md hover:scale-105 transition-all duration-300 ease-in-out bg-white">
+                    {post.image_url ? (
+                  <div className="w-full h-48 relative bg-gray-200 overflow-hidden rounded-t-md">
+                    <Image width={500} height={300} src={post.image_url} alt={post.title} className="w-full h-full object-cover rounded-t-md" />
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-center w-full rounded-t-md h-48 relative bg-gradient-to-b from-gray-100 to-gray-300 overflow-hidden">
+                    <ImageOff className="w-15 h-15 text-gray-500" />
+                  </div>
+                )}
                 <div className="px-4 py-2 bg-white rounded-b-md">
                   <h2 className="text-lg font-bold mb-2">{post.title}</h2>
                   <p className="text-sm text-gray-600 mb-2 line-clamp-2">{post.anons}</p>

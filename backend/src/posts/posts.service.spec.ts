@@ -39,10 +39,19 @@ describe('PostsService', () => {
   });
 
   it('finds a post by its sequential post_id', async () => {
-    const post = { post_id: 1, title: 'First post' };
+    const post = {
+      post_id: 1,
+      title: 'First post',
+      users: { name: 'Daria' },
+    };
     prisma.posts.findFirst.mockResolvedValue(post);
 
-    await expect(service.getPostById(1)).resolves.toBe(post);
+    await expect(service.getPostById(1)).resolves.toEqual({
+      post_id: 1,
+      title: 'First post',
+      author_name: 'Daria',
+      users: undefined,
+    });
 
     expect(prisma.posts.findFirst).toHaveBeenCalledWith({
       where: { post_id: 1 },
