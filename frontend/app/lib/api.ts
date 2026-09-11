@@ -1,4 +1,26 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+const API_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000').replace(/\/+$/, '');
+
+export type Post = {
+  id: string;
+  post_id: number;
+  title: string;
+  anons: string;
+  full_text?: string;
+  image_url?: string;
+  image_path?: string;
+  author_id?: string;
+  author_name?: string;
+  created_at?: string;
+};
+
+async function parseJsonResponse(response: Response, fallbackError: string) {
+  const text = await response.text();
+  try {
+    return text ? JSON.parse(text) : null;
+  } catch {
+    throw new Error(fallbackError);
+  }
+}
 
 async function getApiError(response: Response, fallback: string) {
   try {
@@ -33,7 +55,7 @@ export async function register(name: string, email: string, password: string) {
     throw new Error(await getApiError(response, 'Registration failed'));
   }
 
-  return response.json();
+  return parseJsonResponse(response, 'Registration failed: invalid server response');
 }
 
 export async function login(email: string, password: string) {
@@ -50,7 +72,7 @@ export async function login(email: string, password: string) {
     throw new Error(await getApiError(response, 'Login failed'));
   }
 
-  return response.json();
+  return parseJsonResponse(response, 'Login failed: invalid server response');
 }
 
 export async function logout() {
@@ -63,20 +85,24 @@ export async function logout() {
     throw new Error('Logout failed');
   }
 
-  return response.json();
+  return parseJsonResponse(response, 'Logout failed: invalid server response');
 }
 
 export async function getCurrentUser() {
-  const response = await fetch(`${API_URL}/auth/me`, {
-    method: 'GET',
-    credentials: 'include',
-  });
+  try {
+    const response = await fetch(`${API_URL}/auth/me`, {
+      method: 'GET',
+      credentials: 'include',
+    });
 
-  if (!response.ok) {
+    if (!response.ok) {
+      return null;
+    }
+
+    return await parseJsonResponse(response, 'Failed to parse user data');
+  } catch {
     return null;
   }
-
-  return response.json();
 }
 
 export async function getPosts() {
@@ -86,7 +112,7 @@ export async function getPosts() {
     throw new Error('Failed to fetch posts');
   }
 
-  return response.json();
+  return parseJsonResponse(response, 'Failed to fetch posts: invalid server response');
 }
 
 export async function createPost(post: {
@@ -109,7 +135,7 @@ export async function createPost(post: {
     throw new Error(await getApiError(response, 'Failed to create post'));
   }
 
-  return response.json();
+  return parseJsonResponse(response, 'Failed to create post: invalid server response');
 }
 
 export async function getPostById(postId: string) {
@@ -119,7 +145,7 @@ export async function getPostById(postId: string) {
     throw new Error('Failed to fetch post');
   }
 
-  return response.json();
+  return parseJsonResponse(response, 'Failed to fetch post: invalid server response');
 }
 
 export async function getMyPosts() {
@@ -131,7 +157,7 @@ export async function getMyPosts() {
     throw new Error(await getApiError(response, 'Failed to fetch your posts'));
   }
 
-  return response.json();
+  return parseJsonResponse(response, 'Failed to fetch your posts: invalid server response');
 }
 
 export async function deletePost(id: string) {
@@ -144,5 +170,5 @@ export async function deletePost(id: string) {
     throw new Error(await getApiError(response, 'Failed to delete post'));
   }
 
-  return response.json();
+  return parseJsonResponse(response, 'Failed to delete post: invalid server response');
 }

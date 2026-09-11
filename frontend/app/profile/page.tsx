@@ -1,8 +1,5 @@
 "use client";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link";
-import { Lottie } from "lottie-react";
 import SavedPostsTab from "../components/SavedPostsTab/SavedPostsTab";
 import { getCurrentUser, getMyPosts, deletePost } from "@/app/lib/api";
 import { useEffect, useState } from "react";

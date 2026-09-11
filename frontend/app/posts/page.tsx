@@ -1,10 +1,18 @@
-import { getPosts } from '../lib/api';
+import { getPosts, Post } from '../lib/api';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ImageOff } from 'lucide-react';
 
 export default async function PostsPage() {
-  const posts = await getPosts();
+  let posts: Post[] = [];
+  try {
+    const fetched = await getPosts();
+    if (Array.isArray(fetched)) {
+      posts = fetched;
+    }
+  } catch {
+    posts = [];
+  }
 
   return (
     <main className="w-full flex flex-col items-center justify-center sm:items-start z-2">
@@ -13,7 +21,7 @@ export default async function PostsPage() {
       </div>
     <div className="w-full max-w-6xl mx-auto flex flex-col items-center justify-center py-5 px-10 mt-7 sm:items-start">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full">
-        {posts.map((post: any) => (
+        {posts.map((post) => (
           <Link key={post.id} href={`/posts/${post.post_id}`} className="border border-gray-200 rounded-md hover:shadow-md hover:scale-105 transition-all duration-300 ease-in-out">
             {post.image_url ? (
               <div className="w-full h-48 relative bg-gray-200 overflow-hidden rounded-t-md">
