@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { createPost } from "@/app/lib/api";
 import { supabase } from "@/app/lib/supabase";
+import { convertImageToWebp } from "@/app/lib/image";
 
 const imageBucket = process.env.NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET || "post-images";
 
@@ -71,11 +72,11 @@ export const NewPostModal = ({ children, open, onOpenChange }: NewPostModalProps
             let imagePath: string | undefined;
 
             if (image) {
-                const extension = image.name.split('.').pop()?.toLowerCase() || 'jpg';
-                imagePath = `posts/${crypto.randomUUID()}.${extension}`;
+                const webpImage = await convertImageToWebp(image);
+                imagePath = `posts/${crypto.randomUUID()}.webp`;
                 const { error: uploadError } = await supabase.storage
                     .from(imageBucket)
-                    .upload(imagePath, image, { contentType: image.type, upsert: false });
+                    .upload(imagePath, webpImage, { contentType: 'image/webp', upsert: false });
 
                 if (uploadError) {
                     throw new Error(`Image upload failed: ${uploadError.message}`);
