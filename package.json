@@ -1,0 +1,10 @@
+{
+  "name": "post-it-app",
+  "private": true,
+  "scripts": {
+    "vercel-build": "cd frontend && npm install && npm run build"
+  },
+  "dependencies": {
+    "next": "16.3.4"
+  }
+}

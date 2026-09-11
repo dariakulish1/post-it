@@ -1,10 +1,11 @@
 "use client";
 
 import Image from "next/image";
+import { ImageOff } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getPostById } from "@/app/lib/api";
-import { getSavedPostIds } from "@/app/lib/savedPosts";
+import { getSavedPostIds, subscribeToSavedPosts } from "@/app/lib/savedPosts";
 
 type SavedPost = {
   id: string;
@@ -37,6 +38,7 @@ export default function SavedPostsPage() {
     };
 
     loadSavedPosts();
+    return subscribeToSavedPosts(loadSavedPosts);
   }, []);
 
   return (
@@ -54,12 +56,13 @@ export default function SavedPostsPage() {
               key={post.id}
               href={`/posts/${post.post_id}`}
               className="border border-gray-200 rounded-md hover:shadow-md hover:scale-105 transition-all duration-300 ease-in-out"
-            >
-              <div className="w-full h-48 relative bg-gray-200 overflow-hidden rounded-t-md">
-                {post.image_url && (
+            >{post.image_url ? (
+              <div className="w-full h-48 relative bg-gray-200 overflow-hidden rounded-t-md">  
                   <Image src={post.image_url} alt={post.title} fill className="object-cover" />
-                )}
               </div>
+            ) : <div className="flex items-center justify-center w-full rounded-t-md h-48 relative bg-gradient-to-b from-gray-100 to-gray-300 overflow-hidden">
+                      <ImageOff className="w-15 h-15 text-gray-500" />
+                    </div>}
               <div className="px-4 py-2 bg-white rounded-b-md">
                 <h2 className="text-lg font-bold mb-2">{post.title}</h2>
                 <p className="text-sm text-gray-600 mb-2 line-clamp-2">{post.anons}</p>

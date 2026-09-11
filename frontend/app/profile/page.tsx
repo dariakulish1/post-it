@@ -8,7 +8,7 @@ import { getCurrentUser, getMyPosts, deletePost } from "@/app/lib/api";
 import { useEffect, useState } from "react";
 import { ImageOff, Mail, User } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getSavedPostIds } from "../lib/savedPosts";
+import { getSavedPostIds, subscribeToSavedPosts } from "../lib/savedPosts";
 
 type UserPost = {
   id: string;
@@ -27,6 +27,14 @@ const ProfilePage = () => {
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [error, setError] = useState('');
   const [tabContent, setTabContent] = useState("your-posts");
+  const [savedCount, setSavedCount] = useState(0);
+
+  useEffect(() => {
+    const updateSavedCount = () => setSavedCount(getSavedPostIds().length);
+
+    updateSavedCount();
+    return subscribeToSavedPosts(updateSavedCount);
+  }, []);
 
   useEffect(() => {
     const loadUser = async () => {
@@ -76,7 +84,7 @@ const ProfilePage = () => {
   };
 
   const getSavedPostsCount = () => {
-    return getSavedPostIds().length;
+    return savedCount;
   };
 
   return (
