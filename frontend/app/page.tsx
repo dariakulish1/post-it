@@ -1,20 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getPosts, Post } from './lib/api';
+import { getPosts } from './lib/api';
 import { Button } from "@/components/ui/button";
 import { NewPostModal } from "./components/NewPostModal/NewPostModal";
 import { ImageOff } from "lucide-react";
 
 export default async function Home() {
-  let posts: Post[] = [];
-  try {
-    const fetched = await getPosts();
-    if (Array.isArray(fetched)) {
-      posts = fetched;
-    }
-  } catch {
-    posts = [];
-  }
+  const posts = await getPosts();
   const lastPosts = posts.slice(0, 3);
   
   return (
@@ -42,7 +34,7 @@ export default async function Home() {
         <div className="flex flex-1 w-full max-w-8xl mx-auto flex-col items-center justify-center py-5 px-10 sm:items-start z-2">
           <h1 className="text-3xl lg:text-5xl font-bold text-center sm:text-left mt-10 mb-5">Recent posts</h1>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 w-full">
-              {lastPosts.map((post) => (
+              {lastPosts.map((post: any) => (
                   <Link key={post.id} href={`/posts/${post.post_id}`} className="border border-gray-200 rounded-md hover:shadow-md hover:scale-105 transition-all duration-300 ease-in-out bg-white">
                     {post.image_url ? (
                   <div className="w-full h-48 relative bg-gray-200 overflow-hidden rounded-t-md">
