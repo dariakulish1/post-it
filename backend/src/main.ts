@@ -19,7 +19,7 @@ async function bootstrap() {
   );
 
   app.enableCors({
-    origin: 'https://post-l8qoh245w-darias-projects-91f8a453.vercel.app',
+    origin: 'https://post-it-orcin.vercel.app',
     credentials: true,
   });
 
