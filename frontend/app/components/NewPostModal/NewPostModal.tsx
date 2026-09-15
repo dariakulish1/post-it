@@ -123,7 +123,7 @@ export const NewPostModal = ({ children, open, onOpenChange }: NewPostModalProps
                 <div className="relative">
                     {!imagePreview && (
                         <p className="absolute top-5 left-4 text-xl cursor-pointer font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-pink-500 bg-clip-text text-transparent z-1">
-                        Click to choose images for your post
+                        Click to choose image for your post
                     </p>)}
                     <input
                         ref={fileInputRef}
