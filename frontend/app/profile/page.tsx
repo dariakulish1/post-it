@@ -89,8 +89,10 @@ const ProfilePage = () => {
 
   return (
     <div className="w-full flex flex-col items-center justify-center sm:items-start z-2">
+      <div className="w-full flex items-center justify-center h-50 bg-[url('/bg-image-profile.JPG')] bg-cover bg-center relative overflow-hidden">
+        <h1 className="text-6xl lg:text-8xl font-bold text-white opacity-70 text-center sm:text-left mb-8 z-3">Profile</h1>
+      </div>
       <div className="flex flex-col items-start justify-start w-full max-w-6xl mx-auto">
-        <h1 className="text-3xl font-bold py-4">Profile Page</h1>
         <div className="flex flex-row gap-6 items-center justify-center pt-3">
           <div className="w-20 h-20 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center">
             <User className="w-10 h-10 text-white" />
