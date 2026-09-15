@@ -18,15 +18,15 @@ import type { Request, Response } from 'express';
 const accessTokenCookieOptions = {
   httpOnly: true,
   secure: process.env.NODE_ENV === 'production',
-  sameSite: 'lax' as const,
-  maxAge: 15 * 60 * 1000,
+  sameSite: 'none' as const,
+  maxAge: 25 * 60 * 1000,
   path: '/',
 };
 
 const clearAccessTokenCookieOptions = {
   httpOnly: true,
   secure: process.env.NODE_ENV === 'production',
-  sameSite: 'lax' as const,
+  sameSite: 'none' as const,
   path: '/',
 };
 
