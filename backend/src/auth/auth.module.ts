@@ -14,7 +14,7 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard.js';
     JwtModule.register({
       secret: process.env.JWT_SECRET,
       signOptions: {
-        expiresIn: '15m',
+        expiresIn: '25m',
       },
     }),
   ],
