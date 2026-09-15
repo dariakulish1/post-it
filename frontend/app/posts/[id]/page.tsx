@@ -17,6 +17,7 @@ export default async function BlogPostPage({
         day: 'numeric',
       })
     : 'Unknown date';
+  
 
   return (
     <div className="flex flex-col items-center justify-center">
