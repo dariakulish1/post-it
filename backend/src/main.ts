@@ -19,10 +19,14 @@ async function bootstrap() {
   );
 
   app.enableCors({
-    origin: 'https://post-it-orcin.vercel.app/',
+    origin: 'https://post-l8qoh245w-darias-projects-91f8a453.vercel.app',
     credentials: true,
   });
 
-  await app.listen(4000);
+  const port = Number(process.env.PORT) || 4000;
+
+  await app.listen(port, '0.0.0.0');
+
+  console.log(`Application is running on port ${port}`);
 }
 await bootstrap();
