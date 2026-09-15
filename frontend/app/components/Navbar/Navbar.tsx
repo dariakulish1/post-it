@@ -44,7 +44,7 @@ export const Navbar = () => {
               <Image src="/postit-icon-1024.png" alt="PostIT Logo" width={32} height={32} className="border border-gray-300 rounded-md" />
               <span>PostIT</span>
             </div>
-            <div className="space-x-4 flex flex-row w-full justify-between items-center">
+            <div className="px-4 flex flex-row w-full justify-between items-center">
                 <div className="space-x-8 mx-auto flex items-center">
                   <Link href="/" className="font-semibold text-gray-600 hover:text-gray-900">Home</Link>
                   <Link href="/posts" className="font-semibold text-gray-600 hover:text-gray-900">Posts</Link>
@@ -56,8 +56,8 @@ export const Navbar = () => {
                 {!loading && user && (
                   <>
                   <DropdownMenu>
-                    <DropdownMenuTrigger render={<Button variant="outline" className="border-0" />}>
-                      <div className="flex items-center space-x-2 py-2">
+                    <DropdownMenuTrigger render={<Button variant="outline" className="border-0 py-1 h-9" />}>
+                      <div className="flex items-center space-x-2">
                         <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
                           <User className="w-5 h-5 text-blue-500" />
                         </div>

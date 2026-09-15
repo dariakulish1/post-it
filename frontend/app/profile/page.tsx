@@ -89,7 +89,7 @@ const ProfilePage = () => {
 
   return (
     <div className="w-full flex flex-col items-center justify-center sm:items-start z-2">
-      <div className="w-full flex items-center justify-center h-50 bg-[url('./bg-image-profile.jpg')] bg-cover bg-center relative overflow-hidden">
+      <div className="w-full flex items-center justify-center h-50 bg-[url('/bg-image-profile.jpg')] bg-cover bg-center relative overflow-hidden">
         <h1 className="text-6xl lg:text-8xl font-bold text-white opacity-70 text-center sm:text-left mb-8 z-3">Profile</h1>
       </div>
       <div className="flex flex-col items-start justify-start w-full max-w-6xl mx-auto">
