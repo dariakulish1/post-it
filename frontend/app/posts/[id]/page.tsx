@@ -2,6 +2,7 @@ import { getPostById } from "@/app/lib/api";
 import { User } from "lucide-react";
 import Image from "next/image";
 import { SavePostButton } from "./SavePostButton";
+import { Input } from "@base-ui/react";
 
 export default async function BlogPostPage({
   params,
@@ -38,7 +39,7 @@ export default async function BlogPostPage({
               <h1 className="text-5xl font-bold mb-4">{post.title}</h1>
               <i className="opacity-70 text-lg text-center sm:text-left z-3">{post.anons}</i>
             </div>
-          <div className="flex flex-row w-full justify-between items-center">
+          <div className="flex flex-row w-full justify-between items-center border-b border-gray-200">
             <div className="flex flex-row w-full mt-3 mb-3 gap-4 items-center">
               <div className="flex items-center justify-center bg-gray-200 w-10 h-10 rounded-full">
                 <User className="w-6 h-6 text-gray-500" />
@@ -51,10 +52,20 @@ export default async function BlogPostPage({
             <SavePostButton postId={id} />
           </div>
           {post.image_url && (
-            <Image width={800} height={400} src={post.image_url} alt={post.title} className="w-full h-[400px] object-cover rounded-md mb-4 border-t border-gray-200 pt-4" />
+            <Image width={800} height={400} src={post.image_url} alt={post.title} className="w-full h-[400px] object-cover rounded-md mb-4 pt-4" />
           )}
-          <div className={post.image_url ? 'w-full' : 'w-full mb-4 border-t border-gray-200'}>
+          <div className={post.image_url ? 'w-full border-b border-gray-200 pb-4' : 'w-full mb-4 border-y border-gray-200'}>
             <p className="text-lg text-gray-700 mt-6">{post.full_text}</p>
+          </div>
+          <div className="w-full pt-4 flex flex-col gap-4">
+            <p className="text-gray-900 text-lg font-bold mt-2">Comments</p>
+            <div className="flex flex-row gap-4 items-start justify-start">
+              <div className="flex items-center justify-center bg-gray-200 w-10 h-10 rounded-full">
+                <p>U</p>
+              </div>
+              <Input placeholder="Add a comment..." className="flex-1" />
+            </div>
+            <button className="bg-blue-500 text-white px-4 py-2 rounded-md self-end">Post Comment</button>
           </div>
       </div>
     </div>
