@@ -1,4 +1,4 @@
-import { getPostById } from "@/app/lib/api";
+import { getPostById, getCommentsByPostId } from "@/app/lib/api";
 import { User } from "lucide-react";
 import Image from "next/image";
 import { SavePostButton } from "./SavePostButton";
@@ -11,6 +11,8 @@ export default async function BlogPostPage({
 }) {
   const { id } = await params;
   const post = await getPostById(id);
+  const comments = await getCommentsByPostId(id);
+  console.log(comments);
   const createdDate = post.created_at
     ? new Date(post.created_at).toLocaleDateString('en-US', {
         year: 'numeric',

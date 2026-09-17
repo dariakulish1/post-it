@@ -178,6 +178,16 @@ export async function createComment(comment: {
   return response.json();
 }
 
+export async function getCommentsByPostId(postId: string) {
+  const response = await fetch(`${API_URL}/comments?post_id=${postId}`);
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch comments');
+  }
+
+  return response.json();
+}
+
 export async function getPostById(postId: string) {
   const response = await fetch(`${API_URL}/posts/${postId}`);
 
