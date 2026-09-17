@@ -179,7 +179,7 @@ export async function createComment(comment: {
 }
 
 export async function getCommentsByPostId(postId: string) {
-  const response = await fetch(`${API_URL}/comments?post_id=${postId}`);
+  const response = await fetch(`${API_URL}/comments/${postId}`);
 
   if (!response.ok) {
     throw new Error('Failed to fetch comments');

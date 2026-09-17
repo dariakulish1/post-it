@@ -67,7 +67,7 @@ export default async function BlogPostPage({
               <div className="flex items-center justify-center bg-gray-200 w-10 h-10 rounded-full">
                 <p>{currentUserInitials}</p>
               </div>
-              <input placeholder="Add a comment..." className="flex-1 h-[70px] border border-gray-400 rounded-md p-2 bg-gray-50" />
+              <textarea placeholder="Add a comment..." className="flex-1 h-[80px] border border-gray-400 rounded-md p-2 bg-gray-50" />
             </div>
             <button className="bg-pink-600 border border-pink-800 text-white px-4 py-2 font-medium rounded-full self-end">Post Comment</button>
           </div>
