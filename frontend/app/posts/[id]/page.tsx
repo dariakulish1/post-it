@@ -18,6 +18,8 @@ export default async function BlogPostPage({
         day: 'numeric',
       })
     : 'Unknown date';
+
+  const currentUserInitials = "U";
   
 
   return (
@@ -58,14 +60,14 @@ export default async function BlogPostPage({
             <p className="text-lg text-gray-700 mt-6">{post.full_text}</p>
           </div>
           <div className="w-full pt-4 flex flex-col gap-4">
-            <p className="text-gray-900 text-lg font-bold mt-2">Comments</p>
+            <p className="text-gray-900 text-xl font-bold mt-2">Comments</p>
             <div className="flex flex-row gap-4 items-start justify-start">
               <div className="flex items-center justify-center bg-gray-200 w-10 h-10 rounded-full">
-                <p>U</p>
+                <p>{currentUserInitials}</p>
               </div>
-              <Input placeholder="Add a comment..." className="flex-1" />
+              <input placeholder="Add a comment..." className="flex-1 h-[70px] border border-gray-400 rounded-md p-2 bg-gray-50" />
             </div>
-            <button className="bg-blue-500 text-white px-4 py-2 rounded-md self-end">Post Comment</button>
+            <button className="bg-pink-600 border border-pink-800 text-white px-4 py-2 font-medium rounded-full self-end">Post Comment</button>
           </div>
       </div>
     </div>
