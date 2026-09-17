@@ -11,8 +11,8 @@ export default async function BlogPostPage({
 }) {
   const { id } = await params;
   const post = await getPostById(id);
-  const comments = await getCommentsByPostId(id);
-  console.log(comments);
+  // const comments = await getCommentsByPostId(id);
+  // console.log(comments);
   const createdDate = post.created_at
     ? new Date(post.created_at).toLocaleDateString('en-US', {
         year: 'numeric',
