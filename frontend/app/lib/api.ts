@@ -151,6 +151,33 @@ export async function createPost(post: {
   return response.json();
 }
 
+export async function createComment(comment: {
+  id: string;
+  text: string;
+  author_id: string;
+  post_id: string;
+  created_at: string;
+}) {
+  const token = getAccessToken();
+
+  const response = await fetch(`${API_URL}/comments`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(comment),
+  });
+
+  if (!response.ok) {
+    throw new Error(
+      await getApiError(response, 'Failed to create comment'),
+    );
+  }
+
+  return response.json();
+}
+
 export async function getPostById(postId: string) {
   const response = await fetch(`${API_URL}/posts/${postId}`);
 
