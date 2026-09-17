@@ -5,7 +5,6 @@ import {
   Inject,
   Post,
   Req,
-  Res,
   UseGuards,
   Param,
 } from '@nestjs/common';
@@ -13,22 +12,7 @@ import { RegisterDto } from './dto/register.dto.js';
 import { AuthService } from './auth.service.js';
 import { LoginDto } from './dto/login.dto.js';
 import { JwtAuthGuard } from './guards/jwt-auth.guard.js';
-import type { Request, Response } from 'express';
-
-const accessTokenCookieOptions = {
-  httpOnly: true,
-  secure: true,
-  sameSite: 'none' as const,
-  maxAge: 25 * 60 * 1000,
-  path: '/',
-};
-
-const clearAccessTokenCookieOptions = {
-  httpOnly: true,
-  secure: true,
-  sameSite: 'none' as const,
-  path: '/',
-};
+import type { Request } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -40,13 +24,12 @@ export class AuthController {
   }
 
   @Post('login')
-  async login(@Body() dto: LoginDto, @Res({ passthrough: true }) res: Response) {
+  async login(@Body() dto: LoginDto) {
     const result = await this.authService.login(dto) as any;
-
-    res.cookie('access_token', result.accessToken, accessTokenCookieOptions);
 
     return {
       message: 'Login successful',
+      accessToken: result.accessToken,
       user: result.user,
     };
   }
@@ -70,10 +53,10 @@ export class AuthController {
   }
 
   @Post('logout')
-  logout(@Res({ passthrough: true }) res: Response) {
-    res.clearCookie('access_token', clearAccessTokenCookieOptions);
-
-    return { message: 'Logged out successfully' };
+  logout() {
+    return {
+      message: 'Logged out successfully',
+    };
   }
 
 }

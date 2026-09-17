@@ -20,7 +20,8 @@ async function bootstrap() {
 
   app.enableCors({
     origin: 'https://post-it-orcin.vercel.app',
-    credentials: true,
+    credentials: false,
+    allowedHeaders: ['Content-Type', 'Authorization'],
   });
 
   const port = Number(process.env.PORT) || 10000;

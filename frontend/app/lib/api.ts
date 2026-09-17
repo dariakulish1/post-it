@@ -1,5 +1,13 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
 
+function getAccessToken() {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
+  return sessionStorage.getItem('accessToken');
+}
+
 async function getApiError(response: Response, fallback: string) {
   try {
     const error = await response.json();
@@ -43,21 +51,36 @@ export async function login(email: string, password: string) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ email, password }),
-    credentials: 'include',
   });
 
   if (!response.ok) {
     throw new Error(await getApiError(response, 'Login failed'));
   }
 
-  return response.json();
+  const data = await response.json();
+
+  if (typeof window !== 'undefined') {
+    sessionStorage.setItem('accessToken', data.accessToken);
+  }
+
+  return data;
 }
 
 export async function logout() {
+  const token = getAccessToken();
+
   const response = await fetch(`${API_URL}/auth/logout`, {
     method: 'POST',
-    credentials: 'include',
+    headers: token
+      ? {
+          Authorization: `Bearer ${token}`,
+        }
+      : {},
   });
+
+  if (typeof window !== 'undefined') {
+    sessionStorage.removeItem('accessToken');
+  }
 
   if (!response.ok) {
     throw new Error('Logout failed');
@@ -67,12 +90,24 @@ export async function logout() {
 }
 
 export async function getCurrentUser() {
+  const token = getAccessToken();
+
+  if (!token) {
+    return null;
+  }
+
   const response = await fetch(`${API_URL}/auth/me`, {
     method: 'GET',
-    credentials: 'include',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
 
   if (!response.ok) {
+    if (response.status === 401 && typeof window !== 'undefined') {
+      sessionStorage.removeItem('accessToken');
+    }
+
     return null;
   }
 
@@ -96,17 +131,21 @@ export async function createPost(post: {
   image_url?: string;
   image_path?: string;
 }) {
+  const token = getAccessToken();
+
   const response = await fetch(`${API_URL}/posts`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(post),
-    credentials: 'include',
   });
 
   if (!response.ok) {
-    throw new Error(await getApiError(response, 'Failed to create post'));
+    throw new Error(
+      await getApiError(response, 'Failed to create post'),
+    );
   }
 
   return response.json();
@@ -123,25 +162,37 @@ export async function getPostById(postId: string) {
 }
 
 export async function getMyPosts() {
+  const token = getAccessToken();
+
   const response = await fetch(`${API_URL}/posts/mine`, {
-    credentials: 'include',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
 
   if (!response.ok) {
-    throw new Error(await getApiError(response, 'Failed to fetch your posts'));
+    throw new Error(
+      await getApiError(response, 'Failed to fetch your posts'),
+    );
   }
 
   return response.json();
 }
 
 export async function deletePost(id: string) {
+  const token = getAccessToken();
+
   const response = await fetch(`${API_URL}/posts/${id}`, {
     method: 'DELETE',
-    credentials: 'include',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
 
   if (!response.ok) {
-    throw new Error(await getApiError(response, 'Failed to delete post'));
+    throw new Error(
+      await getApiError(response, 'Failed to delete post'),
+    );
   }
 
   return response.json();
